@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+body{margin:0;font-family:Georgia;background:#111;color:#fff;overflow:hidden}
+.page{display:none;position:absolute;inset:0;background-size:cover;background-position:center;justify-content:center;align-items:flex-end}
+.active{display:flex}.text{background:rgba(0,0,0,.55);margin:30px;padding:20px;border-radius:12px;max-width:800px}
+button{position:fixed;top:10px;padding:10px}#p{left:10px}#n{right:10px}
+</style></head><body>
+<button id=p onclick="chg(-1)">◀</button><button id=n onclick="chg(1)">▶</button>
+<div class="page active" style="background-image:url('page1.jpg')"><div class=text><h2>The Whispering Forest</h2><p>Aarav followed a glowing butterfly into a mysterious forest. The trees whispered: "Only those with a kind heart may find the hidden light."</p></div></div>
+<div class="page" style="background-image:url('page2.jpg')"><div class=text><h2>The Crystal Lake</h2><p>The butterfly led him to a crystal lake where glowing fish spelled: "Your greatest adventure has only just begun."</p></div></div>
+<audio id=a1 src="music1.mp3" loop></audio><audio id=a2 src="music2.mp3" loop></audio>
+<script>
+let i=0,p=document.querySelectorAll('.page'),a=[a1,a2];
+function fadeOut(x){let v=x.volume,t=setInterval(()=>{v-=.05;if(v<=0){clearInterval(t);x.pause();x.currentTime=0;x.volume=1}else x.volume=v},50)}
+function show(k){p[i].classList.remove('active');fadeOut(a[i]);i=k;p[i].classList.add('active');a[i].play().catch(()=>{});}
+function chg(d){let k=i+d;if(k>=0&&k<p.length)show(k)}
+let sx=0;document.addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx;if(dx<-50)chg(1);if(dx>50)chg(-1);});
+document.body.addEventListener('click',()=>a[0].play(),{once:true});
+</script></body></html>
